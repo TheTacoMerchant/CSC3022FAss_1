@@ -3,26 +3,18 @@
 #include <iostream>
 #include <algorithm>
 
+#include "header.h"
+
 namespace BRGMAR044
 {
-    class FrameSequence
-    {
-    private:
-        int frame_height, frame_width, x1, x2, y1, y2;
-        std::vector<unsigned char **> ImageSequence;
-        std::vector<std::vector<float>> PathCoords;
-        void generatePathCoords(void);
-        bool mustReverse;
-
-    public:
-        FrameSequence(void);
-        void setFrameSize(int height, int width);
-        void setCoords(int x1, int x2, int y1, int y2);
-    };
 
     FrameSequence::FrameSequence(void)
     {
         mustReverse = false;
+    }
+
+    FrameSequence::~FrameSequence(){
+        std::cout<<"WTF";
     }
 
     void FrameSequence::setFrameSize(int height, int width)
@@ -64,7 +56,6 @@ namespace BRGMAR044
         float g;
         x = float(x1);
         y = float(y1);
-        std::cout<<x<<y;
         PathCoords.push_back(std::vector<float>{x, y});
         
 

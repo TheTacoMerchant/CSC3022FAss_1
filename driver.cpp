@@ -7,9 +7,12 @@ int main(int argc, char *argv[])
 {
     BRGMAR044::FrameSequence myFrames;
 
-    //for (int j = 0; j < 2; ++j)
-    //{std::cout<<"WTF";}
+    for (int i = 0; i<argc;++i){
+        if (std::string(argv[i]) == "-t"){
+            myFrames.setCoords(std::atoi(argv[i+1]),std::atoi(argv[i+3]),std::atoi(argv[i+2]),std::atoi(argv[i+4]));
+        }
+    }
 
-    myFrames.setCoords(0, 6, 0, 0);
+    //myFrames.setCoords(0, 6, 0, 0);
     return 0;
 }
