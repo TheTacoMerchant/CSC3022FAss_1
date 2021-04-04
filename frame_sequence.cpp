@@ -62,9 +62,11 @@ namespace BRGMAR044
     {
         float dx, dy, x, y;
         float g;
-        x = x1;
-        y = y1;
+        x = float(x1);
+        y = float(y1);
+        std::cout<<x<<y;
         PathCoords.push_back(std::vector<float>{x, y});
+        
 
         dx = x2 - x1;
         dy = y2 - y1;
