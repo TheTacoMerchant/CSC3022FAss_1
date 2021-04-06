@@ -20,6 +20,8 @@ int main(int argc, char *argv[])
         
     }
     myFrames.parsePGM(argv[1]);
+    myFrames.extractFrames();
+    myFrames.executeCommands();
 
     return 0;
 }

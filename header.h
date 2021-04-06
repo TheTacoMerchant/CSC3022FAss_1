@@ -22,6 +22,9 @@ class FrameSequence
         void setCoords(int x1, int x2, int y1, int y2);
         void addCommand(std::string type, std::string filename);
         void parsePGM(std::string filename);
+        void extractFrames();
+        void executeCommands();
+        void exportFrames(std::string filename);
     };
 }
 #endif

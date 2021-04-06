@@ -23,7 +23,7 @@ namespace BRGMAR044
         delete LargeImage;
     }
 
-    void FrameSequence::setFrameSize(int height, int width)
+    void FrameSequence::setFrameSize(int width, int height)
     {
         frame_height = height;
         frame_width = width;
@@ -69,7 +69,7 @@ namespace BRGMAR044
         if (dy > dx)
         {
             g = dx / dy;
-            for (y = y1 + 1; y <= dy; ++y)
+            for (y = y1 + 1; y <= y2; ++y)
             {
                 x += g;
                 PathCoords.push_back(std::vector<float>{std::round(x), y});
@@ -78,7 +78,7 @@ namespace BRGMAR044
         else
         {
             g = dy / dx;
-            for (x = x1 + 1; x <= dx; ++x)
+            for (x = x1 + 1; x <= x2; ++x)
             {
                 y += g;
                 PathCoords.push_back(std::vector<float>{x, std::round(y)});
@@ -126,7 +126,7 @@ namespace BRGMAR044
 
         delete buffer;
 
-
+        /*
         for (row = 0; row < 10; ++row)
         {
             for (col = 0; col < 10; ++col)
@@ -134,6 +134,66 @@ namespace BRGMAR044
                 std::cout << int(LargeImage[row][col]) << " ";
             }
             std::cout << std::endl;
+        }*/
+    }
+
+    void FrameSequence::extractFrames(){
+        for (int coord = 0; coord<PathCoords.size();++coord){
+            int col_corner = PathCoords[coord][0];
+            int row_corner = PathCoords[coord][1];
+
+            unsigned char **frame = new unsigned char*[frame_height];
+            for (int row = 0; row<frame_height; ++row){
+                frame[row] = new unsigned char[frame_width];
+                for (int col = 0; col<frame_width;++col){
+                    frame[row][col] = LargeImage[row+row_corner][col+col_corner];
+                }
+            }
+            ImageSequence.push_back(frame);
+            
+            for (int row = 0; row<frame_height; ++row){
+                for (int col = 0; col<frame_width;++col){
+                    std::cout << int(frame[row][col]) << " ";
+                }
+                std::cout << std::endl;
+            }
+
+            
+        }
+        for (int row = 0; row<large_height; ++row){
+            delete LargeImage[row];
+        }
+        delete LargeImage;
+    }
+
+    void FrameSequence::executeCommands(){
+        for (int command = 0; command<Commands.size(); ++command){
+            std::string commname = Commands[command][0];
+            std::string filename = Commands[command][1];
+
+            if (commname == "none"){
+                exportFrames(filename);
+            }
+        }
+    }
+
+    void FrameSequence::exportFrames(std::string filename){
+        for (int frame = 0; frame < ImageSequence.size();++frame){
+            char numbuffer[4];
+            std::sprintf(numbuffer, "%04d", frame);
+            std::string currfilename = filename + "-" + std::string(numbuffer) + ".pgm";
+            std::ofstream outfile(currfilename);
+            outfile<<"P5"<<"\n"<<"# Created by Mark, he's pretty cool"<<"\n"<<frame_width<<" "<<frame_height<<"\n"<<"255"<<char(10);
+            char *buffer = new char[frame_height*frame_width];
+            for (int row=0;row<frame_height;++row){
+                for (int col = 0; col < frame_width; ++col)
+                {
+                    buffer[row*frame_width + col] = ImageSequence[frame][row][col];
+                }
+            }
+            outfile.write(buffer, frame_width*frame_height);
+            outfile.close();
+            delete buffer;
         }
     }
 
