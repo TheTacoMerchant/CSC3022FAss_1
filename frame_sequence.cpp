@@ -150,13 +150,14 @@ namespace BRGMAR044
                 }
             }
             ImageSequence.push_back(frame);
-            
+
+            /*
             for (int row = 0; row<frame_height; ++row){
                 for (int col = 0; col<frame_width;++col){
                     std::cout << int(frame[row][col]) << " ";
                 }
                 std::cout << std::endl;
-            }
+            }*/
 
             
         }
@@ -172,23 +173,41 @@ namespace BRGMAR044
             std::string filename = Commands[command][1];
 
             if (commname == "none"){
-                exportFrames(filename);
+                exportFrames(filename, false, false);
             }
+
+            if (commname == "invert"){
+                exportFrames(filename, false, true);
+            }
+
+            if (commname == "reverse"){
+                exportFrames(filename, true, false);
+            }
+
+            if (commname == "revinvert"){
+                exportFrames(filename, true, true);
+            }
+
+
         }
     }
 
-    void FrameSequence::exportFrames(std::string filename){
+    void FrameSequence::exportFrames(std::string filename, bool rev, bool inv){
         for (int frame = 0; frame < ImageSequence.size();++frame){
+            int framename;
+            if (rev) framename = ImageSequence.size() - 1 - frame; 
+            else framename = frame;
             char numbuffer[4];
-            std::sprintf(numbuffer, "%04d", frame);
+            std::sprintf(numbuffer, "%04d", framename);
             std::string currfilename = filename + "-" + std::string(numbuffer) + ".pgm";
-            std::ofstream outfile(currfilename);
+            std::ofstream outfile(currfilename, std::ios::binary);
             outfile<<"P5"<<"\n"<<"# Created by Mark, he's pretty cool"<<"\n"<<frame_width<<" "<<frame_height<<"\n"<<"255"<<char(10);
             char *buffer = new char[frame_height*frame_width];
             for (int row=0;row<frame_height;++row){
                 for (int col = 0; col < frame_width; ++col)
                 {
-                    buffer[row*frame_width + col] = ImageSequence[frame][row][col];
+                    if (inv) buffer[row*frame_width + col] = char(255 - int(ImageSequence[frame][row][col]));
+                    else buffer[row*frame_width + col] = ImageSequence[frame][row][col];
                 }
             }
             outfile.write(buffer, frame_width*frame_height);

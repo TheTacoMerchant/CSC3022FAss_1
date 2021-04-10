@@ -24,7 +24,7 @@ class FrameSequence
         void parsePGM(std::string filename);
         void extractFrames();
         void executeCommands();
-        void exportFrames(std::string filename);
+        void exportFrames(std::string filename, bool rev, bool inv);
     };
 }
 #endif
