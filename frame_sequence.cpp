@@ -17,10 +17,7 @@ namespace BRGMAR044
 
     FrameSequence::~FrameSequence()
     {
-        for (int i = 0; i< large_height;++i){
-            delete LargeImage[i];
-        }
-        delete LargeImage;
+
     }
 
     void FrameSequence::setFrameSize(int width, int height)
@@ -150,8 +147,12 @@ namespace BRGMAR044
                 }
             }
             ImageSequence.push_back(frame);
-
-            
+            /*
+            for (int row = 0; row<frame_height; ++row){
+            delete frame[row];
+        }
+            delete frame;
+        }*/
         }
         for (int row = 0; row<large_height; ++row){
             delete LargeImage[row];
