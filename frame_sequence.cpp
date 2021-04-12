@@ -151,14 +151,6 @@ namespace BRGMAR044
             }
             ImageSequence.push_back(frame);
 
-            /*
-            for (int row = 0; row<frame_height; ++row){
-                for (int col = 0; col<frame_width;++col){
-                    std::cout << int(frame[row][col]) << " ";
-                }
-                std::cout << std::endl;
-            }*/
-
             
         }
         for (int row = 0; row<large_height; ++row){
@@ -197,7 +189,7 @@ namespace BRGMAR044
             int framename;
             if (rev) framename = ImageSequence.size() - 1 - frame; 
             else framename = frame;
-            char numbuffer[4];
+            char numbuffer[12];
             std::sprintf(numbuffer, "%04d", framename);
             std::string currfilename = filename + "-" + std::string(numbuffer) + ".pgm";
             std::ofstream outfile(currfilename, std::ios::binary);
