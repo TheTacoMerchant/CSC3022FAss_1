@@ -1,0 +1,18 @@
+USAGE
+
+./driver <inputfile> -s <frame width> <frame height> -t <x1> <y1> <x2> <y2> -w <mode> <outputfile>
+
+where -s flags that the following 2 integers are the width and height of the "frame" respectively.
+      -t flags the next 4 integers as the start and end coordinates for the top-left corner of the frame.
+      -w flags the next 2 strings as the mode (none, invert, reverse, revinvert) of the sequence and the name of the outpul files respectively.
+      inputfile is the name of the PGM file to extract a frame sequence from.
+
+Files:
+header.h
+ - This header file contains the FrameSequence class and declares the methods used in the program.
+
+frame_sequence.cpp
+ - Source file containing the method implementations for parsing a PGM file and extracting a FrameSequence from that file.
+
+driver.cpp
+ - Source file implementing the main method and handling core functionality.
