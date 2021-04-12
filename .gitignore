@@ -3,3 +3,4 @@
 *.exe
 *.zip
 *.bat
+!sloan_image.pgm
